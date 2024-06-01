@@ -2,15 +2,15 @@
 
 > Von Peter Hofmann, Dresden am 22. Mai 2022, Ehrenmitglied und Geschichtskommision Dresdner Schach
 
-Heute würdigen wir die Gründung unseres Schachvereins 1922 (^Anlage 1) im Restaurant 'Rübezahl Barbarossaplatz'. 
-Dort wurde im Juni 1945 nach dem in Dresden schrecklichen Ende des Krieges ein Schachblitzturnier initiiert (^Anlage 2).
+Heute würdigen wir die Gründung unseres Schachvereins 1922 ([Striesener Schachvereinigung 1922.jpg](https://github.com/Schachverein-Dresden-Striesen/Vereins-Wiki/blob/main/Striesener%20Schachvereinigung%201922.jpg?raw=true)) im Restaurant `Rübezahl Barbarossaplatz`. 
+Dort wurde im Juni 1945 nach dem in Dresden schrecklichen Ende des Krieges ein Schachblitzturnier initiiert ([Einladung Eröffnungs-Blitzturnier 1945](https://github.com/Schachverein-Dresden-Striesen/Vereins-Wiki/blob/main/1945%20Er%C3%B6ffnungs-Blitzturnier%20Barbarossaplatz.jpg?raw=true)).
 
-2003 fand dort im 'Augsburger Hof' _(Augsburger Straße 49 - 01309 Dresden)_ die Jahreshauptversammlung (JHV) Dresden-Striesen 1990 e.V. mit neuem Vereinsvorsitzenden Orland Krug statt.
+2003 fand dort im `Augsburger Hof` _(Augsburger Straße 49 - 01309 Dresden)_ die Jahreshauptversammlung (JHV) Dresden-Striesen 1990 e.V. mit neuem Vereinsvorsitzenden Orland Krug statt.
 Heute ist dort das Restaurant&Cafe SPIZZ.
 
-Zurück zur **Vereinsgründung:** 1. Spielstätte war die Mosenschänke Mosen-Ecke Stormstraße (jetzt Hand-Böhm-Str.), am 13./14. Februar 1945 total zerstört.
-1933-36 fand die Nationale Schach Einzelmeisterschaft von Dresden statt. Rudolf Keller (_Striesen_) wurde Stadtmeister. 1942 gab es Schach-Mannschaftsmeisterschaften von Dresden an 10 Brettern mit Striesen, 'ZeissIkon' spielte mit 6 Mannschaften!
-1929 im Arbeiterschach spielte Striesen im Volkshaus-Ost Schandauer Straße (jetzt _Programmkino, Schandauer Str. 73, 01277 Dresden_).
+Zurück zur **Vereinsgründung:** 1. Spielstätte war die `Mosenschänke` Mosen-Ecke Stormstraße (jetzt Hand-Böhm-Str.), am 13./14. Februar 1945 total zerstört.
+1933-36 fand die Nationale Schach Einzelmeisterschaft von Dresden statt. Rudolf Keller (_Striesen_) wurde Stadtmeister. 1942 gab es Schach-Mannschaftsmeisterschaften von Dresden an 10 Brettern mit Striesen, `ZeissIkon` spielte mit 6 Mannschaften!
+1929 im Arbeiterschach spielte Striesen im `Volkshaus-Ost` Schandauer Straße (jetzt _Programmkino, Schandauer Str. 73, 01277 Dresden_).
 
 ## Ergebnisse Striesen bzw. Tabak 
 Bei Mannschaftsmeisterschaften an 10 Brettern
@@ -34,7 +34,7 @@ Bei Mannschaftsmeisterschaften an 10 Brettern
 
 ## Vereinsnamen-Änderung und Spiellokale nach Neubeginn 1945:
 **1949-1950** BSG (Betriebssportgemeinschaft) **VVB Tabak Dresden** \
-**Spiellokal** 'Striesner Casino' _Augsburger Straße 62 / Tzschimmerstraße_ \
+**Spiellokal** Striesner Casino _Augsburger Straße 62 / Tzschimmerstraße_ \
 **Vorsitzender** Heinz Dittmar, aktiv spielten u.a. Manfred Mädler und Gottfried Braun.
 
 **1951-1957 BSG Empor Tabak** \
@@ -42,7 +42,7 @@ Bei Mannschaftsmeisterschaften an 10 Brettern
 **Vorsitzender** Walter Großmann mit guten Spielern in der Bezirksliga.
 
 **1957 Übernahme des Vereins** von Motor Dresden Ost \
-**Vorsitzender** Herbert Bartsch. Inventarübergabe-Protokoll siehe (^Anlage 3). Spieler wie Oskar Petzold, Max Eckhart, Helmut Heinrich, Hans Schlossar, Zillig, Manfred Fischer spielten für Motor Ost 1.+2. Mannschaft im Bezirk.
+**Vorsitzender** Herbert Bartsch. Inventarübergabe-Protokoll siehe ([Uebernahmeprotokoll Schachinventar 1958](https://github.com/Schachverein-Dresden-Striesen/Vereins-Wiki/blob/main/Uebernahmeprotokoll%20Schachinventar%20Empor%20Tabak%20Motor%20Ost.jpg?raw=true)). Spieler wie Oskar Petzold, Max Eckhart, Helmut Heinrich, Hans Schlossar, Zillig, Manfred Fischer spielten für Motor Ost 1.+2. Mannschaft im Bezirk.
 
 Motor Ost wurde **1967 in BSG Pentacon Dresden** umbenannt. Mit der Wende und dem Konkurs des Trägerbetriebs Kamerawerk Pentacon kam das aus für die Sportvereine von Pentacon und **SV Dresden-Striesen 1990 e.V.** wurde gegründet mit Übernahme fast aller Mitglieder.
 
