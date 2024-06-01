@@ -50,8 +50,6 @@ Motor Ost wurde **1967 in BSG Pentacon Dresden** umbenannt. Mit der Wende und de
 
 Nach mühsamen Recherchen zum Ursprung 1922 und der einstimmigen Befürwortung auf der Jahres-Hauptversammlung 2021 ist es erfreulich die Zahl 1990 aus unserem Vereinsnamen zu löschen.
 
-[Striesen](https://www.stadtwikidd.de/wiki/Striesen)
-
 ## Historisches "aktuell"
 
 Der Krieg Russlands gegen die Ukraine droht die Schachwelt zu spalten. Viele Schachspieler aus Russland und Ukraine spielen in deutschen Teams.
@@ -62,3 +60,8 @@ Der Krieg Russlands gegen die Ukraine droht die Schachwelt zu spalten. Viele Sch
 **1968** fand das Rückspiel in Dresden statt (~~Bericht von Manfred Kahn?~~).
 
 **1925** spielte bereits ein **Fußball-Nationalteam** mit Charkow vor 40 Tausend Zuschauern im **Stadion and der Hepkestraße** mit Rückspiel 1927 in Charkow.
+
+## Links
+
+- [Schachverein Dresden-Striesen e.V.](http://sv-dresden-striesen.de/)
+- [Stadtwiki Striesen](https://www.stadtwikidd.de/wiki/Striesen)
