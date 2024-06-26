@@ -1,4 +1,5 @@
 // Queries:
+// Match (s:Saison {jahr:2018})--(:Staffel {ak:10})-[r]-(v:Verein) where r.kampflos>0 return r,v.name order by r.kampflos desc
 
 MERGE (saison2018:Saison { name:"Saison 2018/2019", jahr:2018, url:'https://svs.portal64.de/ergebnisse/show/2018/1' })
 MERGE (s2018ddu20:Staffel {name:"Bezirksliga Dresden U20", url:'https://svs.portal64.de/ergebnisse/show/2018/1535', region:"Dresden", ak:20, partien:40, kampflos:9})
@@ -13,7 +14,7 @@ MERGE (s2018ddu14k:Staffel {name:"Bezirksklasse Dresden U14", url:'https://svs.p
 MERGE (s2018ddu12:Staffel {name:"Bezirksliga Dresden U12", url:'https://svs.portal64.de/ergebnisse/show/2018/1543', region:"Dresden", ak:12, partien:224, kampflos:0})
 MERGE (s2018ddu12ka:Staffel {name:"Bezirksklasse Dresden U12 St. A", url:'https://svs.portal64.de/ergebnisse/show/2018/1551', region:"Dresden", ak:12, partien:168, kampflos:2})
 MERGE (s2018ddu12kb:Staffel {name:"Bezirksklasse Dresden U12 St. B", url:'https://svs.portal64.de/ergebnisse/show/2018/1553', region:"Dresden", ak:12, partien:168, kampflos:23})
-MERGE (s2018ddu10:Staffel {name:"Bezirksliga Dresden U10", url:'https://svs.portal64.de/ergebnisse/show/2018/1643', region:"Dresden", ak:10, partien:(12*4*9), kampflos:45})
+MERGE (s2018ddu10:Staffel {name:"Bezirksliga Dresden U10", url:'https://svs.portal64.de/ergebnisse/show/2018/1643', region:"Dresden", ak:10, partien:(12*4*9), kampflos:61})
 
 MERGE (hoyerswerda:Verein { name:"FVS ASP Hoyerswerda", bezirk:"Dresden" })
 MERGE (heidenau:Verein { name:"Schachklub Heidenau", bezirk:"Dresden" })
@@ -176,3 +177,31 @@ MERGE (heidenau)-[:TEILNAHME { team:1, platz:21, kampflos:3+6 }]->(s2018ddu10) /
 MERGE (heidenau)-[:TEILNAHME { team:2, platz:22, kampflos:3 }]->(s2018ddu10) // 3
 MERGE (großdrebnitz)-[:TEILNAHME { team:1, platz:23, kampflos:12+0 }]->(s2018ddu10)
 MERGE (gwdresden)-[:TEILNAHME { team:2, platz:24, kampflos:3 }]->(s2018ddu10) // 3
+
+// ╒═════════════════════════════════════════════╤════════════════════════╕
+// │Bezirksliga Dresden U10 2018/19              │Verein                  │
+// ╞═════════════════════════════════════════════╪════════════════════════╡
+// │[:TEILNAHME {kampflos: 13,platz: 19,team: 2}]│"SV Traktor Priestewitz"│
+// ├─────────────────────────────────────────────┼────────────────────────┤
+// │[:TEILNAHME {kampflos: 12,platz: 23,team: 1}]│"SG Großdrebnitz"       │
+// ├─────────────────────────────────────────────┼────────────────────────┤
+// │[:TEILNAHME {kampflos: 9,platz: 21,team: 1}] │"Schachklub Heidenau"   │
+// ├─────────────────────────────────────────────┼────────────────────────┤
+// │[:TEILNAHME {kampflos: 6,platz: 14,team: 2}] │"Schach macht fit"      │
+// ├─────────────────────────────────────────────┼────────────────────────┤
+// │[:TEILNAHME {kampflos: 3,platz: 22,team: 2}] │"Schachklub Heidenau"   │
+// ├─────────────────────────────────────────────┼────────────────────────┤
+// │[:TEILNAHME {kampflos: 3,platz: 24,team: 2}] │"SG Grün-Weiß Dresden"  │
+// ├─────────────────────────────────────────────┼────────────────────────┤
+// │[:TEILNAHME {kampflos: 3,platz: 16,team: 1}] │"SC Einheit Bautzen"    │
+// ├─────────────────────────────────────────────┼────────────────────────┤
+// │[:TEILNAHME {kampflos: 3,platz: 12,team: 2}] │"USV TU Dresden"        │
+// ├─────────────────────────────────────────────┼────────────────────────┤
+// │[:TEILNAHME {kampflos: 3,platz: 9,team: 1}]  │"SC 1994 Oberland"      │
+// ├─────────────────────────────────────────────┼────────────────────────┤
+// │[:TEILNAHME {kampflos: 3,platz: 20,team: 2}] │"TuS Coswig 1920"       │
+// ├─────────────────────────────────────────────┼────────────────────────┤
+// │[:TEILNAHME {kampflos: 2,platz: 17,team: 3}] │"Schachklub Heidenau"   │
+// ├─────────────────────────────────────────────┼────────────────────────┤
+// │[:TEILNAHME {kampflos: 1,platz: 2,team: 1}]  │"TuS Coswig 1920"       │
+// └─────────────────────────────────────────────┴────────────────────────┘

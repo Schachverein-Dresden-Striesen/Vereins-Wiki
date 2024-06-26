@@ -3,8 +3,17 @@
 // Queries:
 // kampflos in 2023
 // MATCH (n:Staffel) RETURN n.name,n.jahr,n.kampflos,n.partien,100.0*n.kampflos/n.partien as per order by per desc
-// match (j:Saison {jahr:2023})--(s:Staffel{ak:20}) return sum(s.partien-s.kampflos)
-// match (j:Saison {jahr:2023})--(s:Staffel {ak:10})--(v:Verein)  return count(distinct v.name)
+// match (j:Saison {jahr:2023})--(s:Staffel{ak:vak}) return sum(s.partien-s.kampflos)
+
+// with 10 as vak
+//  MATCH (Saison {jahr:2018})--(s:Staffel{ak:vak}) 
+//  with sum(s.partien-s.kampflos) as s2018, vak
+//  MATCH (Saison {jahr:2022})--(s:Staffel{ak:vak}) 
+//  with sum(s.partien-s.kampflos) as s2022, vak, s2018
+//  MATCH (Saison {jahr:2023})--(s:Staffel{ak:vak}) 
+//  return s2018,s2022,sum(s.partien-s.kampflos) as s2023
+
+// match (j:Saison {jahr:2023})--(s:Staffel {ak:vak})--(v:Verein)  return count(distinct v.name)
 
 MERGE (saison2023:Saison { name:"Saison 2023/2024", jahr:2023, url:'https://svs.portal64.de/ergebnisse/show/2023/1' })
 MERGE (s2023ddu20:Staffel {name:"Bezirksliga Dresden U20", url:'https://svs.portal64.de/ergebnisse/show/2023/2293', region:"Dresden", ak:20, partien:112, kampflos:32})
