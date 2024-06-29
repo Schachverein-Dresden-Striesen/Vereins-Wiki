@@ -50,7 +50,7 @@ MERGE (sgl:Verein { name:"Schachgemeinschaft Leipzig", bezirk:"Leipzig" })
 MERGE (kitzscher:Verein { name:"TSV Kitzscher", bezirk:"Leipzig" })
 MERGE (bsgleipzig:Verein { name:"BSG Grün-Weiß Leipzig e.V.", bezirk:"Leipzig" })
 MERGE (grimma:Verein { name:"SV 1919 Grimma", bezirk:"Leipzig" })
-MERGE (turmleipzig:Verein { name:" 	SG Turm Leipzig", bezirk:"Leipzig" })
+MERGE (turmleipzig:Verein { name:"SG Turm Leipzig", bezirk:"Leipzig" })
 
 MERGE (s2018slu20)-[:IN ]->(saison2018)
 // Finale 1-4: https://svs.portal64.de/ergebnisse/show/2018/1695/tabelle/
