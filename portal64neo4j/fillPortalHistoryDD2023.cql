@@ -7,15 +7,15 @@
 
 WITH 10 AS vak
 MATCH (Saison { jahr:2017 })--(s:Staffel{ak:vak})
-WITH sum(s.partien-s.kampflos) AS s2017, vak
+WITH sum(s.partien-coalesce(s.kampflos, 0)) AS s2017, vak
 MATCH (Saison { jahr:2018 })--(s:Staffel{ak:vak})
-WITH sum(s.partien-s.kampflos) AS s2018, s2017, vak
+WITH sum(s.partien-coalesce(s.kampflos, 0)) AS s2018, s2017, vak
 MATCH (Saison { jahr:2019 })--(s:Staffel{ak:vak})
-WITH sum(s.partien-s.kampflos) AS s2019, s2018, s2017, vak
+WITH sum(s.partien-coalesce(s.kampflos, 0)) AS s2019, s2018, s2017, vak
 MATCH (Saison { jahr:2022 })--(s:Staffel{ak:vak})
-WITH sum(s.partien-s.kampflos) AS s2022, s2019, s2018, s2017, vak
+WITH sum(s.partien-coalesce(s.kampflos, 0)) AS s2022, s2019, s2018, s2017, vak
 MATCH (Saison { jahr:2023 })--(s:Staffel{ak:vak})
-RETURN s2017, s2018, s2019, s2022, sum(s.partien-s.kampflos) AS s2023
+RETURN s2017, s2018, s2019, s2022, sum(s.partien--coalesce(s.kampflos, 0)) AS s2023
 
 // match (j:Saison {jahr:2023})--(s:Staffel {ak:vak})--(v:Verein)  return count(distinct v.name)
 
