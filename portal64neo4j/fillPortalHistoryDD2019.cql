@@ -16,7 +16,7 @@ MERGE (s2019ddu12vrb:Staffel {name:"Bezirksliga U12 Vorrunde St. B", url:'https:
 MERGE (s2019ddu12fa:Staffel {name:"Bezirksklasse Dresden U12 Finale A", url:'https://svs.portal64.de/ergebnisse/show/2019/1837', region:"Dresden", ak:12, partien:112, kampflos: 2})
 MERGE (s2019ddu12fb:Staffel {name:"Bezirksklasse Dresden U12 Finale B", url:'https://svs.portal64.de/ergebnisse/show/2019/1839', region:"Dresden", ak:12, partien:112, kampflos: 8})
 MERGE (s2019ddu12fc:Staffel {name:"Bezirksklasse Dresden U12 Finale C", url:'https://svs.portal64.de/ergebnisse/show/2019/1843', region:"Dresden", ak:12, partien:24, kampflos: 7})
-MERGE (s2019ddu10:Staffel {name:"Bezirksliga Dresden U10", url:'https://svs.portal64.de/ergebnisse/show/2019/1823', region:"Dresden", ak:10, partien:396})
+MERGE (s2019ddu10:Staffel {name:"Bezirksliga Dresden U10", url:'https://svs.portal64.de/ergebnisse/show/2019/1823', region:"Dresden", ak:10, partien:396, kampflos: 18})
 
 MERGE (hoyerswerda:Verein { name:"FVS ASP Hoyerswerda", bezirk:"Dresden" })
 MERGE (heidenau:Verein { name:"Schachklub Heidenau", bezirk:"Dresden" })

@@ -5,13 +5,17 @@
 // MATCH (n:Staffel) RETURN n.name,n.jahr,n.kampflos,n.partien,100.0*n.kampflos/n.partien as per order by per desc
 // match (j:Saison {jahr:2023})--(s:Staffel{ak:vak}) return sum(s.partien-s.kampflos)
 
-// with 10 as vak
-//  MATCH (Saison {jahr:2018})--(s:Staffel{ak:vak}) 
-//  with sum(s.partien-s.kampflos) as s2018, vak
-//  MATCH (Saison {jahr:2022})--(s:Staffel{ak:vak}) 
-//  with sum(s.partien-s.kampflos) as s2022, vak, s2018
-//  MATCH (Saison {jahr:2023})--(s:Staffel{ak:vak}) 
-//  return s2018,s2022,sum(s.partien-s.kampflos) as s2023
+WITH 10 AS vak
+MATCH (Saison { jahr:2017 })--(s:Staffel{ak:vak})
+WITH sum(s.partien-s.kampflos) AS s2017, vak
+MATCH (Saison { jahr:2018 })--(s:Staffel{ak:vak})
+WITH sum(s.partien-s.kampflos) AS s2018, s2017, vak
+MATCH (Saison { jahr:2019 })--(s:Staffel{ak:vak})
+WITH sum(s.partien-s.kampflos) AS s2019, s2018, s2017, vak
+MATCH (Saison { jahr:2022 })--(s:Staffel{ak:vak})
+WITH sum(s.partien-s.kampflos) AS s2022, s2019, s2018, s2017, vak
+MATCH (Saison { jahr:2023 })--(s:Staffel{ak:vak})
+RETURN s2017, s2018, s2019, s2022, sum(s.partien-s.kampflos) AS s2023
 
 // match (j:Saison {jahr:2023})--(s:Staffel {ak:vak})--(v:Verein)  return count(distinct v.name)
 
@@ -53,7 +57,7 @@ MERGE (vfbleipzig:Verein { name:"VfB Schach Leipzig e.V.", bezirk:"Leipzig" })
 MERGE (sgl:Verein { name:"Schachgemeinschaft Leipzig", bezirk:"Leipzig" })
 MERGE (kitzscher:Verein { name:"TSV Kitzscher", bezirk:"Leipzig" })
 
-MERGE (s2023ddu20)-[:IN ]->(saison2023)
+MERGE (s2023ddu20)-[: IN ]->(saison2023)
 MERGE (hoyerswerda)-[:TEILNAHME { team:1, platz:1 }]->(s2023ddu20)
 MERGE (heidenau)-[:TEILNAHME { team:1, platz:2, kampflos:2 }]->(s2023ddu20)
 MERGE (gwdresden)-[:TEILNAHME { team:1, platz:3 }]->(s2023ddu20)
@@ -63,20 +67,20 @@ MERGE (priestewitz)-[:TEILNAHME { team:1, platz:6, kampflos:6 }]->(s2023ddu20)
 MERGE (ddstriesen)-[:TEILNAHME { team:2, platz:7, kampflos:3 }]->(s2023ddu20)
 MERGE (tudresden)-[:TEILNAHME { team:1, platz:8, kampflos:15 }]->(s2023ddu20)
 
-MERGE (s2023slu20)-[:IN ]->(saison2023)
+MERGE (s2023slu20)-[: IN ]->(saison2023)
 MERGE (ddleuben)-[:TEILNAHME { team:1, platz:1 }]->(s2023slu20)
 MERGE (ddstriesen)-[:TEILNAHME { team:1, platz:2, kampflos: 3 }]->(s2023slu20)
 MERGE (markneukirchen)-[:TEILNAHME { team:1, platz:3 }]->(s2023slu20)
 
-MERGE (s2023smmu20)-[:IN ]->(saison2023)
-MERGE (usgchemnitz)-[:TEILNAHME { team:1  }]->(s2023smmu20)
-MERGE (sgl)-[:TEILNAHME { team:1  }]->(s2023smmu20)
-MERGE (ddleuben)-[:TEILNAHME { team:1  }]->(s2023smmu20)
-MERGE (ddstriesen)-[:TEILNAHME { team:1  }]->(s2023smmu20)
+MERGE (s2023smmu20)-[: IN ]->(saison2023)
+MERGE (usgchemnitz)-[:TEILNAHME { team:1 }]->(s2023smmu20)
+MERGE (sgl)-[:TEILNAHME { team:1 }]->(s2023smmu20)
+MERGE (ddleuben)-[:TEILNAHME { team:1 }]->(s2023smmu20)
+MERGE (ddstriesen)-[:TEILNAHME { team:1 }]->(s2023smmu20)
 MERGE (vfbleipzig)-[:TEILNAHME { team:1 }]->(s2023smmu20)
-MERGE (plauen)-[:TEILNAHME { team:1  }]->(s2023smmu20)
+MERGE (plauen)-[:TEILNAHME { team:1 }]->(s2023smmu20)
 
-MERGE (s2023slu16)-[:IN ]->(saison2023)
+MERGE (s2023slu16)-[: IN ]->(saison2023)
 MERGE (tudresden)-[:TEILNAHME { team:1, platz:1 }]->(s2023slu16)
 MERGE (plauen)-[:TEILNAHME { team:1, platz:2 }]->(s2023slu16)
 MERGE (lindenau)-[:TEILNAHME { team:1, platz:3 }]->(s2023slu16)
@@ -88,7 +92,7 @@ MERGE (scaufbau)-[:TEILNAHME { team:1, platz:8 }]->(s2023slu16)
 MERGE (sgl)-[:TEILNAHME { team:1, platz:9, kampflos:11 }]->(s2023slu16)
 MERGE (ddstriesen)-[:TEILNAHME { team:2, platz:10, kampflos:12 }]->(s2023slu16)
 
-MERGE (s2023ddu16)-[:IN ]->(saison2023)
+MERGE (s2023ddu16)-[: IN ]->(saison2023)
 MERGE (ddleuben)-[:TEILNAHME { team:1, platz:1 }]->(s2023ddu16)
 MERGE (altenberg)-[:TEILNAHME { team:1, platz:2 }]->(s2023ddu16)
 MERGE (freital)-[:TEILNAHME { team:1, platz:3 }]->(s2023ddu16)
@@ -100,7 +104,7 @@ MERGE (ddstriesen)-[:TEILNAHME { team:3, platz:8 }]->(s2023ddu16)
 MERGE (radebeul)-[:TEILNAHME { team:1, platz:9 }]->(s2023ddu16)
 MERGE (ddleuben)-[:TEILNAHME { team:2, platz:10 }]->(s2023ddu16)
 
-MERGE (s2023ddu14)-[:IN ]->(saison2023)
+MERGE (s2023ddu14)-[: IN ]->(saison2023)
 MERGE (bautzen)-[:TEILNAHME { team:1, platz:1 }]->(s2023ddu14)
 MERGE (ddstriesen)-[:TEILNAHME { team:1, platz:2, kampflos:2 }]->(s2023ddu14)
 MERGE (oberland)-[:TEILNAHME { team:1, platz:3 }]->(s2023ddu14)
@@ -115,7 +119,7 @@ MERGE (freital)-[:TEILNAHME { team:1, platz:11 }]->(s2023ddu14)
 MERGE (ddstriesen)-[:TEILNAHME { team:2, platz:12, kampflos: 11 }]->(s2023ddu14)
 MERGE (oberland)-[:TEILNAHME { team:2, platz:13, kampflos:3 }]->(s2023ddu14)
 
-MERGE (s2023ddu12)-[:IN ]->(saison2023)
+MERGE (s2023ddu12)-[: IN ]->(saison2023)
 MERGE (ddstriesen)-[:TEILNAHME { team:1, platz:1 }]->(s2023ddu12)
 MERGE (ddleuben)-[:TEILNAHME { team:2, platz:2 }]->(s2023ddu12)
 MERGE (tudresden)-[:TEILNAHME { team:1, platz:3 }]->(s2023ddu12)
@@ -132,7 +136,7 @@ MERGE (heidenau)-[:TEILNAHME { team:1, platz:13, kampflos:1 }]->(s2023ddu12)
 MERGE (coswig)-[:TEILNAHME { team:1, platz:14, kampflos:16 }]->(s2023ddu12)
 MERGE (gersdorf)-[:RUECKZUG { team:1, platz:15, kampflos:56 }]->(s2023ddu12)
 
-MERGE (s2023ddu10)-[:IN ]->(saison2023)
+MERGE (s2023ddu10)-[: IN ]->(saison2023)
 MERGE (gwdresden)-[:TEILNAHME { team:1, platz:1 }]->(s2023ddu10)
 MERGE (tudresden)-[:TEILNAHME { team:1, platz:2 }]->(s2023ddu10)
 MERGE (ddleuben)-[:TEILNAHME { team:1, platz:3 }]->(s2023ddu10)
@@ -151,4 +155,3 @@ MERGE (heidenau)-[:TEILNAHME { team:1, platz:15 }]->(s2023ddu10)
 MERGE (smf)-[:TEILNAHME { team:1, platz:16 }]->(s2023ddu10)
 MERGE (oberland)-[:TEILNAHME { team:2, platz:17 }]->(s2023ddu10)
 MERGE (radebeul)-[:TEILNAHME { team:2, platz:18 }]->(s2023ddu10)
-
