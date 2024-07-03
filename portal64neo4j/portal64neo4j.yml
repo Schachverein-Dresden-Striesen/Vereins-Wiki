@@ -1,0 +1,9 @@
+name: portal64neo4j
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - matplotlib
+  - neo4j-python-driver
+  - pathlib
+  - python-dotenv
