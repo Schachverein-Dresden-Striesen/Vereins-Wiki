@@ -11,7 +11,7 @@ LOGGER = logging.getLogger("portal64neo4j.py")
 
 
 def main(args: List[str]) -> None:
-    """ """
+    """Analyzing SVS Portal64 Seasons with Neo4j"""
     parser = get_parser("Analyzing SVS Portal64 Seasons with Neo4j")
     options = parser.parse_args(args)
 
@@ -23,11 +23,17 @@ def main(args: List[str]) -> None:
         config["NEO4J_SERVERURL"], config["NEO4J_USER"], config["NEO4J_PASSWORD"]
     )
 
+    # Get Seasons
     seasons = app.get_seasons()
-    for season in sorted(seasons, key=lambda s: s["saison"]["jahr"]):
+    for season in sorted(seasons, key=get_jahr):
         print(season)
 
+    # Closing
     del app
+
+
+def get_jahr(season):
+    return season["saison"]["jahr"]
 
 
 class Portal64Neo4j:
@@ -35,7 +41,7 @@ class Portal64Neo4j:
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
         self.driver.verify_connectivity()
         LOGGER.info(
-            f"{self.__class__.__name__} started driver {self.driver.__class__.__name__} at {self.driver.default_targets} "
+            f"{self.__class__.__name__} started driver {self.driver.__class__.__name__} at {self.driver.address}"
         )
 
     def __del__(self):
