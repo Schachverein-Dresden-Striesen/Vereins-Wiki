@@ -11,9 +11,10 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 logging.basicConfig(
-    level=logging.DEBUG, format="%(asctime)s %(levelname)s:%(name)s:%(message)s"
+    level=logging.INFO, format="%(asctime)s %(levelname)s:%(name)s:%(message)s"
 )
 LOGGER = logging.getLogger()
+LOGGER.addHandler(logging.FileHandler(f"{__file__}.log"))
 logging.getLogger("selenium").setLevel(logging.INFO)
 logging.getLogger("urllib3.connectionpool").setLevel(logging.INFO)
 
@@ -97,7 +98,7 @@ def compare_changes(file):
     sorted_existing = sorted(get_files_with_prefix(".", basename))
     if len(sorted_existing) < 2:
         return
-    LOGGER.info(sorted_existing)
+    LOGGER.debug(sorted_existing)
     newer = False
     with open(sorted_existing[-1], "r") as newest:
         with open(sorted_existing[-2], "r") as older:
