@@ -20,7 +20,6 @@ logging.getLogger("urllib3.connectionpool").setLevel(logging.INFO)
 
 
 class SpeichereDWZDaten:
-    basename = "F2810_DWZ".lower()
 
     URL_LOGIN = "https://www.schachbund.de/anmelden.html"
     URL_STRIESEN = "https://www.schachbund.de/verein/F2810.html"
@@ -30,27 +29,23 @@ class SpeichereDWZDaten:
     SPIELER_LINK = "[{}]/td[4]/a"
     TURNIER_LINK = "[{}]/td[3]/a"
     XPATH_GEGNER = "//div[4]/table/tbody/tr[{}]/td[2]"
+    TURNIER_TR_CLASS = "table_responsiv"
     allowed_chars = re.compile(r'[<>:"/\\|?*]')
 
     def setup_method(self):
         options = webdriver.FirefoxOptions()
-        options.headless = True  # Headless-Modus aktivieren
+        # options.headless = True  # Headless-Modus aktivieren
         self.driver = webdriver.Firefox(options=options)
         self.vars = {}
 
     def teardown_method(self):
         self.driver.quit()
 
-    def writeFile(self, data, format: str) -> str:
-        from datetime import datetime
-
-        now = datetime.now()
-        timestamp = now.strftime("%Y%m%d_%H%M%S")
-        filename = f"{self.basename}_{timestamp}.{format}"
-        with open(filename, "w") as json_file:
-            json_file.write(data)
-        LOGGER.info("Written to " + filename)
-        return filename
+    def login(self):
+        self.driver.get(self.URL_LOGIN)
+        self.driver.find_element(By.ID, "username").send_keys(os.getenv("DWZ_USERNAME"))
+        self.driver.find_element(By.ID, "password").send_keys(os.getenv("DWZ_PASSWORD"))
+        self.driver.find_element(By.CSS_SELECTOR, ".submit").click()
 
     def handle_tabellen(self, tabellen, name, turnier):
         safe_folder_name = self.allowed_chars.sub("_", name)
@@ -67,12 +62,6 @@ class SpeichereDWZDaten:
             except FileExistsError as e:
                 LOGGER.error(e)
 
-    def login(self):
-        self.driver.get(self.URL_LOGIN)
-        self.driver.find_element(By.ID, "username").send_keys(os.getenv("DWZ_USERNAME"))
-        self.driver.find_element(By.ID, "password").send_keys(os.getenv("DWZ_PASSWORD"))
-        self.driver.find_element(By.CSS_SELECTOR, ".submit").click()
-
     def startIteration(self):
         self.login()
         self.driver.get(self.URL_STRIESEN)
@@ -81,7 +70,7 @@ class SpeichereDWZDaten:
             By.XPATH, self.XPATH_DEWIS_TABLE + self.PAT_ROWS
         )
 
-        for spielernr in range(13, len(spieler)):
+        for spielernr in range(1, 1 + len(spieler)):
             name = self.driver.find_element(
                 By.XPATH,
                 self.XPATH_DEWIS_TABLE
@@ -91,22 +80,26 @@ class SpeichereDWZDaten:
             name_text = name.text
             LOGGER.info("Name: %s", name_text)
             name.click()  # Turniere
-            for turniernr in range(1, len(self.driver.find_elements(By.XPATH, self.XPATH_DEWIS_TABLE + self.PAT_ROWS))):  # fmt: skip
-                turnier = self.driver.find_element(
-                    By.XPATH,
-                    self.XPATH_DEWIS_TABLE
-                    + self.PAT_ROWS
-                    + self.TURNIER_LINK.format(turniernr),
-                )
-                turnier_text = turnier.text
-                LOGGER.info("Turnier: %s", turnier_text)
-                turnier.click()  # Gegner
-                LOGGER.info("Gegner")
-                tabellen = self.driver.find_elements(By.CLASS_NAME, "table_responsiv")
-                self.handle_tabellen(tabellen, name_text, turnier_text)
-                self.driver.back()
+            for turniernr in range(1, 1 + len(self.driver.find_elements(By.XPATH, self.XPATH_DEWIS_TABLE + self.PAT_ROWS))):  # fmt: skip
+                try:
+                    turnier = self.driver.find_element(
+                        By.XPATH,
+                        self.XPATH_DEWIS_TABLE
+                        + self.PAT_ROWS
+                        + self.TURNIER_LINK.format(turniernr),
+                    )
+                    turnier_text = turnier.text
+                    LOGGER.info("Turnier: %s", turnier_text)
+                    turnier.click()  # Gegner
+                    tabellen = self.driver.find_elements(
+                        By.CLASS_NAME, self.TURNIER_TR_CLASS
+                    )
+                    self.handle_tabellen(tabellen, name_text, turnier_text)
+                except:
+                    LOGGER.warning("Kein Turnier")
+                self.driver.back()  # Verlasse Turnier
 
-            self.driver.back()
+            self.driver.back()  # Verlasse Spieler
 
 
 # Dir with geckodriver
