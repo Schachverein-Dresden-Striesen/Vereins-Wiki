@@ -53,7 +53,7 @@ Diese Website wird mit GitHub Pages und Jekyll erstellt und automatisch bereitge
 
 3. **Website starten**:
    ```bash
-   # Für lokale Entwicklung (empfohlen):
+   # Für lokale Entwicklung (empfohlen - vermeidet Baseurl-Probleme):
    bundle exec jekyll serve --baseurl ""
    
    # Oder mit Standard-Konfiguration:
@@ -64,9 +64,16 @@ Die Website ist dann unter `http://localhost:4000` erreichbar.
 
 ### Inhalte bearbeiten
 
+**Lokale Entwicklung:**
 - Bearbeiten Sie Markdown-Dateien (`.md`) in VSCode oder Ihrem bevorzugten Editor
-- Oder direkt in GitHub über die Weboberfläche
 - Änderungen werden automatisch beim Speichern übernommen (Live-Reload)
+
+**Direkt in GitHub:**
+- Dateien können direkt über die GitHub-Weboberfläche bearbeitet werden
+- Besonders praktisch für schnelle Textänderungen ohne lokale Entwicklungsumgebung
+- Änderungen werden automatisch als Commit gespeichert
+
+**Neue Inhalte:**
 - Neue Seiten können im `pages/` Verzeichnis erstellt werden
 
 ### Deployment
