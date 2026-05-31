@@ -35,6 +35,12 @@ Unser Verein blickt auf eine lange und erfolgreiche Geschichte zurück. Erfahren
 
 - [100 Jahre Schachverein Dresden-Striesen]({{ site.baseurl }}{% link pages/100JahreSVDresden-Striesen-Peter-Hofmann.md %})
 
+## Mitmachen
+
+Möchten Sie zur Vereinswebsite beitragen? Unsere Schritt-für-Schritt-Anleitung erklärt, wie Sie Inhalte hinzufügen oder bearbeiten können – ganz ohne technische Vorkenntnisse:
+
+- [Onboarding-Guide: Mitmachen im Vereins-Wiki]({{ site.baseurl }}{% link pages/onboarding.md %})
+
 ## Kontakt
 
 Bei Fragen oder Interesse an unserem Verein kontaktieren Sie uns gerne über unsere offiziellen Kanäle. Wir freuen uns auf Ihre Nachricht!
