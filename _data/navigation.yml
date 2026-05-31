@@ -10,6 +10,8 @@ main:
     url: /pages/vereinsturniere/
   - title: "Vorstand"
     url: /pages/vorstand/
+  - title: "Satzung und Ordnungen"
+    url: /pages/satzung-und-ordnungen/
   - title: "Jugend"
     url: /pages/jugend/
   - title: "Mädchenschach"

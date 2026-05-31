@@ -24,6 +24,7 @@ Bitte wählen Sie einen Bereich aus:
 - [DWZ-Liste]({{ site.baseurl }}{% link pages/dwz-liste.md %})
 - [Jugend]({{ site.baseurl }}{% link pages/jugend.md %})
 - [Mannschaftskämpfe]({{ site.baseurl }}{% link pages/mannschaftskaempfe.md %})
+- [Satzung und Ordnungen]({{ site.baseurl }}{% link pages/satzung-und-ordnungen.md %})
 - [Schulschach]({{ site.baseurl }}{% link pages/schulschach.md %})
 - [Terminpläne]({{ site.baseurl }}{% link pages/terminplaene.md %})
 - [Vereinsturniere]({{ site.baseurl }}{% link pages/vereinsturniere.md %})
