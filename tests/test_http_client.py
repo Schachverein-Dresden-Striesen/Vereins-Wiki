@@ -107,12 +107,19 @@ def _mock_response(status_code: int, headers: dict | None = None) -> MagicMock:
 
 class TestHttpClient:
     def _make_client(self, responses: list, delays: list | None = None):
-        """Build an HttpClient whose session.get returns *responses* in sequence."""
+        """Build an HttpClient whose session.get returns *responses* in sequence.
+
+        The circuit breaker threshold is set very high so it never interferes
+        with retry-exhaustion tests; circuit-breaker behaviour is covered by
+        dedicated TestCircuitBreaker tests.
+        """
         session = MagicMock(spec=requests.Session)
         session.get.side_effect = responses
+        cb = CircuitBreaker(failure_threshold=1000, cooldown_seconds=3600)
         return HttpClient(
             session=session,
             retry_delays=delays if delays is not None else [0, 0, 0, 0, 0],
+            circuit_breaker=cb,
             timeout=5,
         )
 

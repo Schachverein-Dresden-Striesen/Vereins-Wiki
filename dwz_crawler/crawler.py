@@ -1,4 +1,4 @@
-"""Main crawler orchestrator."""
+"""Crawler: fetches one player and all data for one of their tournaments."""
 
 import logging
 import os
@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Optional
 
 from .api_client import DwzApiClient, Partie, Spieler, Turnier
-from .http_client import CircuitOpenError, HttpClient, MaxRetriesExceededError
+from .http_client import CircuitOpenError, MaxRetriesExceededError
 from .state import (
     CrawlState,
     export_partien,
@@ -16,105 +16,127 @@ from .state import (
 
 LOGGER = logging.getLogger(__name__)
 
-DEFAULT_VEREIN_ID = "F2810"
 DEFAULT_OUTPUT_DIR = Path("output")
 
 
 class DwzCrawler:
-    """Crawl DWZ data for a chess club and export to CSV.
+    """Crawl one player and one of their tournaments, then export to CSV.
 
     Usage::
 
-        crawler = DwzCrawler(verein_id="F2810", output_dir=Path("output"))
+        crawler = DwzCrawler(
+            spieler_id="NU4241593",
+            output_dir=Path("output"),
+        )
         crawler.run()
 
-    Crawl state is persisted in ``output/crawl_state.json`` so that the
-    crawler can be resumed after a failure or throttling event.
+    The first tournament listed on the player page is crawled unless
+    *turnier_index* (0-based) is specified.  Crawl state is persisted in
+    ``output/crawl_state.json`` so a previously completed tournament is not
+    re-fetched.
+
+    Output files
+    ------------
+    output/players.csv      – one row for the player
+    output/tournaments.csv  – one row for the tournament
+    output/games.csv        – one row per game in that tournament
+    output/crawl_state.json – resume state
     """
 
     def __init__(
         self,
-        verein_id: str = DEFAULT_VEREIN_ID,
+        spieler_id: str,
         output_dir: Path = DEFAULT_OUTPUT_DIR,
+        turnier_index: int = 0,
         api_client: Optional[DwzApiClient] = None,
         state: Optional[CrawlState] = None,
-        username: Optional[str] = None,
-        password: Optional[str] = None,
     ) -> None:
-        self._verein_id = verein_id
+        self._spieler_id = spieler_id
         self._output_dir = output_dir
+        self._turnier_index = turnier_index
         self._client = api_client or DwzApiClient()
         self._state = state or CrawlState(output_dir / "crawl_state.json")
-        self._username = username or os.getenv("DWZ_USERNAME", "")
-        self._password = password or os.getenv("DWZ_PASSWORD", "")
+
+    # ------------------------------------------------------------------
 
     def run(self) -> None:
-        """Run the full crawl: players → tournaments → games → CSV export."""
-        if self._username and self._password:
-            try:
-                self._client.login(self._username, self._password)
-            except Exception as exc:
-                LOGGER.warning("Login failed (%s) – continuing as anonymous.", exc)
+        """Fetch player + one tournament + games, then write CSVs."""
+        spieler = self._fetch_spieler()
+        if spieler is None:
+            LOGGER.error("Could not retrieve player %s – aborting.", self._spieler_id)
+            return
 
-        LOGGER.info("Fetching players for Verein %s", self._verein_id)
-        spieler_list = self._fetch_spieler()
-        export_spieler(spieler_list, self._output_dir)
+        turnier = self._pick_turnier(spieler)
+        if turnier is None:
+            LOGGER.error(
+                "No tournament found at index %d for player %s.",
+                self._turnier_index,
+                self._spieler_id,
+            )
+            return
 
-        all_turniere: list[Turnier] = []
-        all_partien: list[Partie] = []
+        partien = self._fetch_partien(turnier)
 
-        for spieler in spieler_list:
-            LOGGER.info("Processing player %s (%s)", spieler.name, spieler.spieler_id)
-            try:
-                turniere = self._client.get_spieler_turniere(spieler.spieler_id)
-            except (MaxRetriesExceededError, CircuitOpenError) as exc:
-                LOGGER.error(
-                    "Could not fetch tournaments for %s: %s", spieler.spieler_id, exc
-                )
-                continue
+        export_spieler([spieler], self._output_dir)
+        export_turniere([turnier], self._output_dir)
+        export_partien(partien, self._output_dir)
+        LOGGER.info("Done. Output written to %s/", self._output_dir)
 
-            for turnier in turniere:
-                if turnier not in all_turniere:
-                    all_turniere.append(turnier)
+    # ------------------------------------------------------------------
 
-                if not self._state.is_due(turnier.turnier_id):
-                    LOGGER.debug(
-                        "Skipping already-crawled tournament %s", turnier.turnier_id
-                    )
-                    continue
+    def _fetch_spieler(self) -> Optional[Spieler]:
+        """Return a stub Spieler for the configured spieler_id.
 
-                try:
-                    partien = self._client.get_turnier_partien(
-                        spieler.spieler_id, turnier.turnier_id
-                    )
-                    all_partien.extend(partien)
-                    self._state.mark_done(turnier.turnier_id)
-                except CircuitOpenError as exc:
-                    LOGGER.error("Circuit open: %s", exc)
-                    # Save progress and abort to avoid hammering the API
-                    break
-                except MaxRetriesExceededError as exc:
-                    LOGGER.error(
-                        "Max retries for tournament %s: %s",
-                        turnier.turnier_id,
-                        exc,
-                    )
-                    self._state.mark_failed(turnier.turnier_id, str(exc))
-                except Exception as exc:
-                    LOGGER.error(
-                        "Unexpected error for tournament %s: %s",
-                        turnier.turnier_id,
-                        exc,
-                    )
-                    self._state.mark_failed(turnier.turnier_id, str(exc))
+        The player name is not available without fetching the player page; the
+        stub uses the ID as the name.  This avoids a redundant HTTP request
+        because ``_pick_turnier`` will fetch the same page anyway.
+        """
+        return Spieler(spieler_id=self._spieler_id, name=self._spieler_id)
 
-        export_turniere(all_turniere, self._output_dir)
-        export_partien(all_partien, self._output_dir)
-        LOGGER.info("Crawl complete.")
-
-    def _fetch_spieler(self) -> list[Spieler]:
+    def _pick_turnier(self, spieler: Spieler) -> Optional[Turnier]:
+        """Fetch the player's tournament list and return the chosen one."""
         try:
-            return self._client.get_vereinsspieler(self._verein_id)
+            turniere = self._client.get_spieler_turniere(spieler.spieler_id)
         except (MaxRetriesExceededError, CircuitOpenError) as exc:
-            LOGGER.error("Could not fetch players: %s", exc)
+            LOGGER.error("Could not fetch tournament list: %s", exc)
+            return None
+
+        if not turniere:
+            LOGGER.warning("Player %s has no tournaments.", spieler.spieler_id)
+            return None
+
+        if self._turnier_index >= len(turniere):
+            LOGGER.warning(
+                "turnier_index=%d is out of range (player has %d tournaments); "
+                "using the first one.",
+                self._turnier_index,
+                len(turniere),
+            )
+            return turniere[0]
+
+        return turniere[self._turnier_index]
+
+    def _fetch_partien(self, turnier: Turnier) -> list[Partie]:
+        """Fetch games for the tournament, respecting crawl state."""
+        if not self._state.is_due(turnier.turnier_id):
+            LOGGER.info(
+                "Tournament %s already crawled – skipping.", turnier.turnier_id
+            )
             return []
+
+        try:
+            partien = self._client.get_turnier_partien(
+                self._spieler_id, turnier.turnier_id
+            )
+            self._state.mark_done(turnier.turnier_id)
+            return partien
+        except CircuitOpenError as exc:
+            LOGGER.error("Circuit breaker open: %s", exc)
+        except MaxRetriesExceededError as exc:
+            LOGGER.error("Max retries exceeded for tournament %s: %s", turnier.turnier_id, exc)
+            self._state.mark_failed(turnier.turnier_id, str(exc))
+        except Exception as exc:
+            LOGGER.error("Unexpected error for tournament %s: %s", turnier.turnier_id, exc)
+            self._state.mark_failed(turnier.turnier_id, str(exc))
+        return []
+

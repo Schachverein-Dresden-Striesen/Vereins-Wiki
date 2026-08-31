@@ -153,7 +153,7 @@ class HttpClient:
             # Retryable error
             self._cb.record_failure()
             LOGGER.warning(
-                "HTTP %d on attempt %d for %s", response.status_code, url, attempt + 1
+                "HTTP %d on attempt %d for %s", response.status_code, attempt + 1, url
             )
 
             # Honour Retry-After if present
